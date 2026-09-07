@@ -1,9 +1,11 @@
-import { Controller, Get } from '@nestjs/common';
+import {Body, Controller, Get, Post} from '@nestjs/common';
 import { AppService } from './app.service';
+import * as internalControlInterface from "./internal-control/internal-control.interface";
 
 @Controller('app')
 export class AppController {
-  constructor(private readonly appService: AppService) {}
+  constructor(private readonly appService: AppService) {
+  }
 
   @Get()
   getHello() {
@@ -11,7 +13,12 @@ export class AppController {
   }
 
   @Get('ic')
-  getInternalControls(){
+  getInternalControls() {
     return this.appService.getInternalControls();
+  }
+
+  @Post('internalControl')
+  addInternalControl(@Body() newInternalControl: internalControlInterface.InternalControl){
+    return this.appService.addInternalControl(newInternalControl);
   }
 }
