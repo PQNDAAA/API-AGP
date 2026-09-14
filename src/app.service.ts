@@ -19,8 +19,8 @@ export class AppService {
 
   async addInternalControl(internalControl: InternalControl){
 
-    const result = await this.db.query(`INSERT INTO internalcontrols(entrydate, agentname, domainname, requiredworkuniform, workstationuniform, equipmentmaterials, professionalcard, ptiisworking, comment)
-VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9)
+    const result = await this.db.query(`INSERT INTO internalcontrols(entrydate, agentname, domainname, requiredworkuniform, workstationuniform, equipmentmaterials, professionalcard, ptiisworking, comment, professionalcardnumber)
+VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9, $10)
 RETURNING *`,
         [
             internalControl.entrydate,
@@ -31,7 +31,8 @@ RETURNING *`,
             internalControl.equipmentmaterials,
             internalControl.professionalcard,
             internalControl.ptiisworking,
-            internalControl.comment
+            internalControl.comment,
+            internalControl.professionalcardnumber
         ]);
     return result.rows[0];
   }

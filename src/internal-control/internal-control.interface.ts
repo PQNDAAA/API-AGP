@@ -8,5 +8,6 @@ export interface InternalControl {
     equipmentmaterials: boolean,
     professionalcard: boolean,
     ptiisworking: boolean,
-    comment: string
+    comment: string,
+    professionalcardnumber: string
 }
