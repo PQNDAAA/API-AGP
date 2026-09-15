@@ -34,6 +34,27 @@ RETURNING *`,
             internalControl.comment,
             internalControl.professionalcardnumber
         ]);
-    return result.rows[0];
+
+    const success = result.rows.length > 0;
+
+    return {
+        success: success,
+        message: success ? `Le contrôle interne a bien été ajouté` :
+            `Le contrôle interne n'a pas été ajouté`,
+        data: result.rows[0]
+    };
+  }
+
+  async deleteInternalControl(id:number){
+      const result = await this.db.query(`DELETE FROM internalcontrols WHERE id = $1 RETURNING *`,
+          [id]);
+
+      const success = result.rows.length > 0;
+
+      return {
+          success: success,
+          message: success ? `Le contrôle interne n°${id} a été supprimé.` :
+              `Le contrôle interne n°${id} n'a pas été trouvé.`
+      }
   }
 }
