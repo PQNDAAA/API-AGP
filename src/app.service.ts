@@ -14,7 +14,15 @@ export class AppService {
     const result = await this.db.query(
         'SELECT * FROM internalcontrols'
     );
-    return result.rows;
+
+    const success = result.rows.length > 0;
+
+    return {
+        success: success,
+        message: success ? 'Liste des contrôles internes récupérée avec succès' :
+            'Aucun contrôle interne trouvé',
+        data: result.rows
+    }
   }
 
   async addInternalControl(internalControl: InternalControl){
