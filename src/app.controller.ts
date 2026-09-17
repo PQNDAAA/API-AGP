@@ -1,4 +1,4 @@
-import {Body, Controller, Get, Post, Delete, Param} from '@nestjs/common';
+import {Body, Controller, Get, Post, Delete, Param, Patch} from '@nestjs/common';
 import { AppService } from './app.service';
 import * as internalControlInterface from "./internal-control/internal-control.interface";
 
@@ -25,5 +25,10 @@ export class AppController {
   @Delete('internalControl/:id')
   deleteInternalControl(@Param('id') id: number){
     return this.appService.deleteInternalControl(id);
+  }
+
+  @Patch('internalControl')
+  modifyInternalControl(@Body() targetInternalControl: internalControlInterface.InternalControl){
+    
   }
 }
