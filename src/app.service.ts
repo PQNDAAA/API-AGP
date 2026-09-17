@@ -57,4 +57,29 @@ RETURNING *`,
               `Le contrôle interne n°${id} n'a pas été trouvé.`
       }
   }
+
+  async modifyInternalControl(id: number, targetInternalControl: InternalControl){
+    const result = await this.db.query(`UPDATE internalcontrols SET entrydate = $1, agentname = $2, domainname = $3, requiredworkuniform = $4, workstationuniform = $5, equipmentmaterials = $6, professionalcard = $7, ptiisworking = $8, comment = $9, professionalcardnumber = $10 WHERE id = $11 RETURNING *`,
+        [
+            targetInternalControl.entrydate,
+            targetInternalControl.agentname,
+            targetInternalControl.domainname,
+            targetInternalControl.requiredworkuniform,
+            targetInternalControl.workstationuniform,
+            targetInternalControl.equipmentmaterials,
+            targetInternalControl.professionalcard,
+            targetInternalControl.ptiisworking,
+            targetInternalControl.comment,
+            targetInternalControl.professionalcardnumber,
+            id
+        ]);
+    const success = result.rows.length > 0;
+
+    return {
+        success: success,
+        message: success ? `Le contrôle interne n°${id} a été modifié.` :
+            `Le contrôle interne n°${id} n'a pas été trouvé.`,
+        data: result.rows[0]
+    }
+  }
 }
