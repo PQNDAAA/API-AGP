@@ -4,11 +4,11 @@ import { NestExpressApplication } from "@nestjs/platform-express";
 
 async function bootstrap() {
   const app = await NestFactory.create<NestExpressApplication>(AppModule);
-  app.enableCors({
-    origin: '*',
-    methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
-    allowedHeaders: 'Content-Type, Authorization',
-  });
+  // app.enableCors({
+  //   origin: '*',
+  //   methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
+  //   allowedHeaders: 'Content-Type, Authorization, Access-Control-Allow-Origin',
+  // });
   await app.listen(3000, '0.0.0.0');
 }
 bootstrap();
