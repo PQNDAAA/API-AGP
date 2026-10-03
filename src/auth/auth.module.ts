@@ -9,16 +9,17 @@ import { DbService } from '../db/db.service';
 
 @Module({
  imports: [
-    PassportModule,
+    PassportModule.register({ defaultStrategy: 'jwt' }),
     JwtModule.registerAsync({
       inject: [ConfigService],
       useFactory: (config: ConfigService) => ({
         secret: config.get<string>('JWT_SECRET'),
-        signOptions: { expiresIn: '45m' },
+        signOptions: { expiresIn: '40m' },
       }),
     }),
   ],
   controllers: [AuthController],
   providers: [AuthService, JwtStrategy, DbService],
+  exports: [AuthService, JwtModule, PassportModule],
 })
 export class AuthModule {}

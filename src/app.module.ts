@@ -4,6 +4,7 @@ import { AppService } from './app.service';
 import { ConfigModule } from '@nestjs/config';
 import { DbService } from './db/db.service';
 import { AuthModule } from './auth/auth.module';
+import { PassportModule } from '@nestjs/passport';
 
 @Module({
   imports: [
@@ -11,6 +12,7 @@ import { AuthModule } from './auth/auth.module';
       isGlobal: true,
     }),
     AuthModule,
+    PassportModule.register({ defaultStrategy: 'jwt' }),
   ],
   controllers: [AppController],
   providers: [AppService, DbService],

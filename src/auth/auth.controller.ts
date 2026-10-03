@@ -1,6 +1,7 @@
-import { Body, Controller, Post } from '@nestjs/common';
+import { Body, Controller, Get, Post, Req, UnauthorizedException } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import * as credentialsInterface from './credentials/credentials.interface';
+import type { Request } from 'express';
 
 @Controller('auth')
 export class AuthController {
@@ -14,6 +15,13 @@ export class AuthController {
   @Post('register')
   register(@Body() credentials: {email: string, password: string}){
     return this.authService.register(credentials);
+  }
+
+  @Get('me')
+  me(@Req() req: Request){
+     const token = req.headers.authorization?.split(' ')[1];
+     if (!token) throw new UnauthorizedException();
+    return this.authService.auth(token);
   }
 
 
