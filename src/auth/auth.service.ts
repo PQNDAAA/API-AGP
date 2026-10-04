@@ -47,7 +47,6 @@ export class AuthService {
             return {
                 success: success,
                 message: success ? 'Utilisateur enregistré avec succès' : 'Erreur lors de l\'enregistrement de l\'utilisateur',
-                data: result.rows[0]
             };
         }
 
