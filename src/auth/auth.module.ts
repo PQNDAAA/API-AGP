@@ -14,7 +14,7 @@ import { DbService } from '../db/db.service';
       inject: [ConfigService],
       useFactory: (config: ConfigService) => ({
         secret: config.get<string>('JWT_SECRET'),
-        signOptions: { expiresIn: '40m' },
+        signOptions: { expiresIn: '8h' },
       }),
     }),
   ],

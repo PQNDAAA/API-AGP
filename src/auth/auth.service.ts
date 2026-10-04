@@ -28,7 +28,7 @@ export class AuthService {
         const token = await this.jwtService.signAsync({
             userId: userData.id,
             userEmail: userData.email,
-        });
+        }, {expiresIn: user.rememberMe ?  '7d' : '8h'});
 
         return {success: true,
             message: 'Authentification réussie',
