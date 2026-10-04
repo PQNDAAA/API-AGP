@@ -16,13 +16,13 @@ export class AuthService {
         const userData = result.rows[0];
 
         if(!userData){
-            throw new UnauthorizedException('Email non trouvé.');
+            throw new UnauthorizedException('Identifiants invalides.');
         }
         
         const isPasswordValid = await bcrypt.compare(user.password, userData.password);
 
         if(!isPasswordValid){
-            throw new UnauthorizedException('Mot de passe incorrect.');
+            throw new UnauthorizedException('Identifiants invalides.');
         }
 
         const token = await this.jwtService.signAsync({
@@ -39,8 +39,8 @@ export class AuthService {
     async register(user: {email: string, password: string}){
         const passwordHash = await bcrypt.hash(user.password, 10);
 
-        const result = await this.db.query(`INSERT INTO users(email, password, rememberMe) 
-            VALUES($1, $2, $3) RETURNING *`, [user.email, passwordHash, false]);
+        const result = await this.db.query(`INSERT INTO users(email, password) 
+            VALUES($1, $2) RETURNING *`, [user.email, passwordHash]);
 
             const success = result.rows.length > 0;
 
