@@ -2,11 +2,13 @@ import { Body, Controller, Get, Post, Req, UnauthorizedException } from '@nestjs
 import { AuthService } from './auth.service';
 import * as credentialsInterface from './credentials/credentials.interface';
 import type { Request } from 'express';
+import { Throttle } from '@nestjs/throttler';
 
 @Controller('auth')
 export class AuthController {
   constructor(private readonly authService: AuthService) {}
 
+  @Throttle({default: {limit: 5, ttl: 15 * 60_000}}) // 5 requests per 15 minutes
   @Post('login')
   login(@Body() credentials: credentialsInterface.Credentials){
     return this.authService.login(credentials);
