@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Post, Req, UnauthorizedException } from '@nestjs/common';
+import { Body, Controller, Get, Header, Post, Req, UnauthorizedException } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import * as credentialsInterface from './credentials/credentials.interface';
 import type { Request } from 'express';
@@ -20,6 +20,7 @@ export class AuthController {
   }
 
   @Get('me')
+  @Header('Cache-Control', 'no-store')
   me(@Req() req: Request){
      const token = req.headers.authorization?.split(' ')[1];
      if (!token) throw new UnauthorizedException();
