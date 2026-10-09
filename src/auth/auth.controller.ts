@@ -1,8 +1,9 @@
-import { Body, Controller, Get, Header, Post, Req, UnauthorizedException } from '@nestjs/common';
+import { Body, Controller, Get, Header, Post, Req, UnauthorizedException, UseGuards } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import * as credentialsInterface from './credentials/credentials.interface';
 import type { Request } from 'express';
 import { Throttle } from '@nestjs/throttler';
+import { JwtAuthGuard } from './jwt-auth/jwt-auth.guard';
 
 @Controller('auth')
 export class AuthController {
@@ -19,14 +20,19 @@ export class AuthController {
     return this.authService.register(credentials);
   }
 
+  @UseGuards(JwtAuthGuard)
   @Get('me')
   @Header('Cache-Control', 'no-store')
   me(@Req() req: Request){
-     const token = req.headers.authorization?.split(' ')[1];
-     if (!token) throw new UnauthorizedException();
-    return this.authService.auth(token);
+    return;
   }
-
+  
+  @Post('disconnect')
+  disconnect(@Req() req: Request){
+    const token = req.headers.authorization?.split(' ')[1];
+    if (!token) throw new UnauthorizedException();
+    return this.authService.disconnect(token);
+  }
 
 
 }

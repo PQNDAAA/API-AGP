@@ -19,4 +19,10 @@ export class DbService implements OnModuleInit {
         return this.pool.query(text,params);
     }
 
+    async hasTokenBlacklisted(jti: string): Promise<boolean> {
+        const result = await this.pool.query('SELECT 1 FROM token_blacklist WHERE jti = $1', [jti]);
+
+        return result.rows.length > 0;
+    }
+
 }

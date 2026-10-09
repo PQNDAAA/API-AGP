@@ -28,6 +28,7 @@ export class AuthService {
         const token = await this.jwtService.signAsync({
             userId: userData.id,
             userEmail: userData.email,
+            jti: crypto.randomUUID()
         }, {expiresIn: user.rememberMe ?  '7d' : '8h'});
 
         return {success: true,
@@ -50,11 +51,17 @@ export class AuthService {
             };
         }
 
-        auth(token: string){
-            try{
-                return this.jwtService.verify(token, {secret: process.env.JWT_SECRET});
-            }catch(error){
-                throw new UnauthorizedException();
-            }
+    async disconnect(token: string){
+        try{
+            const payload = this.jwtService.verify(token, {secret: process.env.JWT_SECRET});
+            const jti = payload.jti;
+            const expiresAt = new Date(payload.exp * 1000);
+
+                return await this.db.query(
+                'INSERT INTO token_blacklist(jti,expires_at) VALUES($1,$2) RETURNING *', 
+                [jti, expiresAt]); 
+        } catch(error){
+            throw new UnauthorizedException();
         }
+    }
     }
