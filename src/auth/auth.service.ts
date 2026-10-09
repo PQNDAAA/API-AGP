@@ -57,9 +57,11 @@ export class AuthService {
             const jti = payload.jti;
             const expiresAt = new Date(payload.exp * 1000);
 
-                return await this.db.query(
-                'INSERT INTO token_blacklist(jti,expires_at) VALUES($1,$2) RETURNING *', 
-                [jti, expiresAt]); 
+            await this.db.query(
+            'INSERT INTO token_blacklist(jti,expires_at) VALUES($1,$2)', 
+            [jti, expiresAt]); 
+
+                return {success: true};
         } catch(error){
             throw new UnauthorizedException();
         }
