@@ -9,6 +9,7 @@ async function bootstrap() {
   //   methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
   //   allowedHeaders: 'Content-Type, Authorization, Access-Control-Allow-Origin',
   // });
+  app.disable('x-powered-by');
   await app.listen(3000, '0.0.0.0');
 }
 bootstrap();
