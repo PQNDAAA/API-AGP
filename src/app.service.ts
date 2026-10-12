@@ -15,12 +15,9 @@ export class AppService {
         'SELECT * FROM internalcontrols'
     );
 
-    const success = result.rows.length > 0;
-
     return {
-        success: success,
-        message: success ? 'Liste des contrôles internes récupérée avec succès' :
-            'Aucun contrôle interne trouvé',
+        success: true,
+        message: 'Liste des contrôles internes récupérée avec succès',
         data: result.rows
     }
   }
@@ -43,12 +40,9 @@ RETURNING *`,
             internalControl.professionalcardnumber
         ]);
 
-    const success = result.rows.length > 0;
-
     return {
-        success: success,
-        message: success ? `Le contrôle interne a bien été ajouté` :
-            `Le contrôle interne n'a pas été ajouté`,
+        success: true,
+        message: `Le contrôle interne a bien été ajouté`,
         data: result.rows[0]
     };
   }
